@@ -1,4 +1,4 @@
-module github.com/Tinkoff/voicekit-examples/golang
+module github.com/gtrxshock/voicekit-examples/golang
 
 go 1.12
 

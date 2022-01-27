@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-	v1 "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/longrunning/v1"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
@@ -1010,69 +1009,6 @@ func (x *InterimResultsConfig) GetInterval() float32 {
 	return 0
 }
 
-type LongRunningRecognizeRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Config *RecognitionConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"` // Recognition configuration.
-	Audio  *RecognitionAudio  `protobuf:"bytes,2,opt,name=audio,proto3" json:"audio,omitempty"`   // Audio to recognize.
-	Group  string             `protobuf:"bytes,3,opt,name=group,proto3" json:"group,omitempty"`   // Group to assign to created operation.
-}
-
-func (x *LongRunningRecognizeRequest) Reset() {
-	*x = LongRunningRecognizeRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_tinkoff_cloud_stt_v1_stt_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *LongRunningRecognizeRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LongRunningRecognizeRequest) ProtoMessage() {}
-
-func (x *LongRunningRecognizeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_tinkoff_cloud_stt_v1_stt_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LongRunningRecognizeRequest.ProtoReflect.Descriptor instead.
-func (*LongRunningRecognizeRequest) Descriptor() ([]byte, []int) {
-	return file_tinkoff_cloud_stt_v1_stt_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *LongRunningRecognizeRequest) GetConfig() *RecognitionConfig {
-	if x != nil {
-		return x.Config
-	}
-	return nil
-}
-
-func (x *LongRunningRecognizeRequest) GetAudio() *RecognitionAudio {
-	if x != nil {
-		return x.Audio
-	}
-	return nil
-}
-
-func (x *LongRunningRecognizeRequest) GetGroup() string {
-	if x != nil {
-		return x.Group
-	}
-	return ""
-}
-
 type StreamingRecognitionConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1648,13 +1584,11 @@ var file_tinkoff_cloud_stt_v1_stt_proto_goTypes = []interface{}{
 	(*SpeechRecognitionResult)(nil),          // 11: tinkoff.cloud.stt.v1.SpeechRecognitionResult
 	(*RecognizeResponse)(nil),                // 12: tinkoff.cloud.stt.v1.RecognizeResponse
 	(*InterimResultsConfig)(nil),             // 13: tinkoff.cloud.stt.v1.InterimResultsConfig
-	(*LongRunningRecognizeRequest)(nil),      // 14: tinkoff.cloud.stt.v1.LongRunningRecognizeRequest
 	(*StreamingRecognitionConfig)(nil),       // 15: tinkoff.cloud.stt.v1.StreamingRecognitionConfig
 	(*StreamingRecognizeRequest)(nil),        // 16: tinkoff.cloud.stt.v1.StreamingRecognizeRequest
 	(*StreamingRecognitionResult)(nil),       // 17: tinkoff.cloud.stt.v1.StreamingRecognitionResult
 	(*StreamingRecognizeResponse)(nil),       // 18: tinkoff.cloud.stt.v1.StreamingRecognizeResponse
 	(*duration.Duration)(nil),                // 19: google.protobuf.Duration
-	(*v1.Operation)(nil),                     // 20: tinkoff.cloud.longrunning.v1.Operation
 }
 var file_tinkoff_cloud_stt_v1_stt_proto_depIdxs = []int32{
 	2,  // 0: tinkoff.cloud.stt.v1.SpeechContext.phrases:type_name -> tinkoff.cloud.stt.v1.SpeechContextPhrase
@@ -1855,16 +1789,7 @@ func file_tinkoff_cloud_stt_v1_stt_proto_init() {
 			}
 		}
 		file_tinkoff_cloud_stt_v1_stt_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LongRunningRecognizeRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
+			return nil
 		}
 		file_tinkoff_cloud_stt_v1_stt_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*StreamingRecognitionConfig); i {
@@ -1962,7 +1887,6 @@ const _ = grpc.SupportPackageIsVersion6
 type SpeechToTextClient interface {
 	Recognize(ctx context.Context, in *RecognizeRequest, opts ...grpc.CallOption) (*RecognizeResponse, error)
 	StreamingRecognize(ctx context.Context, opts ...grpc.CallOption) (SpeechToText_StreamingRecognizeClient, error)
-	LongRunningRecognize(ctx context.Context, in *LongRunningRecognizeRequest, opts ...grpc.CallOption) (*v1.Operation, error)
 }
 
 type speechToTextClient struct {
@@ -2013,20 +1937,10 @@ func (x *speechToTextStreamingRecognizeClient) Recv() (*StreamingRecognizeRespon
 	return m, nil
 }
 
-func (c *speechToTextClient) LongRunningRecognize(ctx context.Context, in *LongRunningRecognizeRequest, opts ...grpc.CallOption) (*v1.Operation, error) {
-	out := new(v1.Operation)
-	err := c.cc.Invoke(ctx, "/tinkoff.cloud.stt.v1.SpeechToText/LongRunningRecognize", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // SpeechToTextServer is the server API for SpeechToText service.
 type SpeechToTextServer interface {
 	Recognize(context.Context, *RecognizeRequest) (*RecognizeResponse, error)
 	StreamingRecognize(SpeechToText_StreamingRecognizeServer) error
-	LongRunningRecognize(context.Context, *LongRunningRecognizeRequest) (*v1.Operation, error)
 }
 
 // UnimplementedSpeechToTextServer can be embedded to have forward compatible implementations.
@@ -2038,9 +1952,6 @@ func (*UnimplementedSpeechToTextServer) Recognize(context.Context, *RecognizeReq
 }
 func (*UnimplementedSpeechToTextServer) StreamingRecognize(SpeechToText_StreamingRecognizeServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamingRecognize not implemented")
-}
-func (*UnimplementedSpeechToTextServer) LongRunningRecognize(context.Context, *LongRunningRecognizeRequest) (*v1.Operation, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LongRunningRecognize not implemented")
 }
 
 func RegisterSpeechToTextServer(s *grpc.Server, srv SpeechToTextServer) {
@@ -2091,24 +2002,6 @@ func (x *speechToTextStreamingRecognizeServer) Recv() (*StreamingRecognizeReques
 	return m, nil
 }
 
-func _SpeechToText_LongRunningRecognize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LongRunningRecognizeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SpeechToTextServer).LongRunningRecognize(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/tinkoff.cloud.stt.v1.SpeechToText/LongRunningRecognize",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpeechToTextServer).LongRunningRecognize(ctx, req.(*LongRunningRecognizeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _SpeechToText_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "tinkoff.cloud.stt.v1.SpeechToText",
 	HandlerType: (*SpeechToTextServer)(nil),
@@ -2116,10 +2009,6 @@ var _SpeechToText_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Recognize",
 			Handler:    _SpeechToText_Recognize_Handler,
-		},
-		{
-			MethodName: "LongRunningRecognize",
-			Handler:    _SpeechToText_LongRunningRecognize_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

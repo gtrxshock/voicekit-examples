@@ -4,12 +4,12 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/Tinkoff/voicekit-examples/golang/pkg/auth"
-	sttPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
-	ttsPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
 	"github.com/go-audio/wav"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
+	"github.com/gtrxshock/voicekit-examples/golang/pkg/auth"
+	sttPb "github.com/gtrxshock/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
+	ttsPb "github.com/gtrxshock/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
 	"github.com/tidwall/pretty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -26,11 +26,10 @@ func GetAuthorizationKeysFromEnv() (auth.KeyPair, error) {
 	}
 
 	return auth.KeyPair{
-		ApiKey: apiKey,
+		ApiKey:    apiKey,
 		SecretKey: secretKey,
 	}, nil
 }
-
 
 type SpeechToTextClient interface {
 	sttPb.SpeechToTextClient
@@ -75,7 +74,7 @@ func NewSttClient() (SpeechToTextClient, error) {
 
 	return &speechToTextClient{
 		SpeechToTextClient: sttPb.NewSpeechToTextClient(connection),
-		conn: connection,
+		conn:               connection,
 	}, err
 }
 
@@ -94,13 +93,13 @@ func NewTtsClient() (TextToSpeechClient, error) {
 
 	return &textToSpeechClient{
 		TextToSpeechClient: ttsPb.NewTextToSpeechClient(connection),
-		conn: connection,
+		conn:               connection,
 	}, err
 }
 
 func PrettyPrintProtobuf(message proto.Message) error {
 	marshaller := &jsonpb.Marshaler{
-		Indent:       "  ",
+		Indent: "  ",
 	}
 	jsonMessage, err := marshaller.MarshalToString(message)
 	if err != nil {
@@ -116,14 +115,14 @@ func OpenWavFormat(file *os.File, expectedEncoding string, expectedNumChannels i
 	wavDecoder.ReadInfo()
 
 	encodingAudioFormat := map[string]uint16{
-		"LINEAR16":  0x0001,
-		"ALAW":      0x0006,
-		"MULAW":     0x0007,
+		"LINEAR16": 0x0001,
+		"ALAW":     0x0006,
+		"MULAW":    0x0007,
 	}
 	encodingBitDepth := map[string]uint16{
-		"LINEAR16":  16,
-		"ALAW":      8,
-		"MULAW":     8,
+		"LINEAR16": 16,
+		"ALAW":     8,
+		"MULAW":    8,
 	}
 	if encodingAudioFormat[expectedEncoding] != wavDecoder.WavAudioFormat {
 		return nil, fmt.Errorf("bad audio format, expected %s, found %v", expectedEncoding, wavDecoder.WavAudioFormat)
