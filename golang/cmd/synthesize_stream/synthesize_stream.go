@@ -4,12 +4,12 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"github.com/Tinkoff/voicekit-examples/golang/pkg/args"
-	"github.com/Tinkoff/voicekit-examples/golang/pkg/common"
-	"gopkg.in/hraban/opus.v2"
-	ttsPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
 	"github.com/go-audio/audio"
 	"github.com/go-audio/wav"
+	"github.com/gtrxshock/voicekit-examples/golang/pkg/args"
+	"github.com/gtrxshock/voicekit-examples/golang/pkg/common"
+	ttsPb "github.com/gtrxshock/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
+	"gopkg.in/hraban/opus.v2"
 	"io"
 	"os"
 )
@@ -91,7 +91,7 @@ func main() {
 		} else {
 			elementSize := kBitDepthLinear16 / 8
 			for i := 0; i < len(msg.AudioChunk); i += elementSize {
-				samples = append(samples, int(int16(binary.LittleEndian.Uint16(msg.AudioChunk[i : i + elementSize]))))
+				samples = append(samples, int(int16(binary.LittleEndian.Uint16(msg.AudioChunk[i:i+elementSize]))))
 			}
 		}
 

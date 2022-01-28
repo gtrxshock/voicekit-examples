@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Tinkoff/voicekit-examples/golang/pkg/args"
-	"github.com/Tinkoff/voicekit-examples/golang/pkg/common"
-	sttPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
+	"github.com/gtrxshock/voicekit-examples/golang/pkg/args"
+	"github.com/gtrxshock/voicekit-examples/golang/pkg/common"
+	sttPb "github.com/gtrxshock/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
 )
 
 func main() {
